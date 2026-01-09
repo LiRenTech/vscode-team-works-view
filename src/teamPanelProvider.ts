@@ -34,7 +34,7 @@ export class TeamPanelProvider implements vscode.TreeDataProvider<TeamPanelItem>
 	getChildren(element?: TeamPanelItem): Thenable<TeamPanelItem[]> {
 		// 返回一个包含按钮的项
 		return Promise.resolve([
-			new TeamPanelItem('查看今日团队情况', 'viewTodayTeamStatus', vscode.TreeItemCollapsibleState.None)
+			new TeamPanelItem('查看团队工作情况', 'viewTodayTeamStatus', vscode.TreeItemCollapsibleState.None)
 		]);
 	}
 }
