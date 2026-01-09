@@ -26,9 +26,14 @@ export function activate(context: vscode.ExtensionContext) {
 		teamPanelProvider.refresh();
 	});
 
-	// 注册查看今日团队情况命令
+	// 注册查看今日团队情况命令（天视图）
 	const viewTodayTeamStatusCommand = vscode.commands.registerCommand('vscode-team-works-view.viewTodayTeamStatus', () => {
-		TeamStatusWebviewProvider.createOrShow(context);
+		TeamStatusWebviewProvider.createOrShow(context, 'day');
+	});
+
+	// 注册查看本周团队情况命令（周视图）
+	const viewWeekTeamStatusCommand = vscode.commands.registerCommand('vscode-team-works-view.viewWeekTeamStatus', () => {
+		TeamStatusWebviewProvider.createOrShow(context, 'week');
 	});
 
 	// 保留原有的 helloWorld 命令（可选）
@@ -36,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from vscode-team-works-view!');
 	});
 
-	context.subscriptions.push(refreshCommand, viewTodayTeamStatusCommand, helloWorldCommand);
+	context.subscriptions.push(refreshCommand, viewTodayTeamStatusCommand, viewWeekTeamStatusCommand, helloWorldCommand);
 }
 
 // This method is called when your extension is deactivated

@@ -41,6 +41,11 @@
         "icon": "$(graph)"
       },
       {
+        "command": "vscode-team-works-view.viewWeekTeamStatus",
+        "title": "查看本周团队情况",
+        "icon": "$(calendar)"
+      },
+      {
         "command": "vscode-team-works-view.refreshTeamPanel",
         "title": "刷新",
         "icon": "$(refresh)"

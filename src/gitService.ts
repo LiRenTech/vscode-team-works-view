@@ -100,6 +100,84 @@ export class GitService {
 	}
 
 	/**
+	 * 获取指定周的所有提交（按作者时间）
+	 * @param date 日期对象，会计算该日期所在周的开始和结束
+	 * @returns 提交列表
+	 */
+	async getCommitsByWeek(date: Date): Promise<GitCommit[]> {
+		try {
+			// 计算该日期所在周的开始（周一）和结束（周日）
+			const weekStart = new Date(date);
+			const dayOfWeek = weekStart.getDay();
+			const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 如果是周日，往前6天；否则往前到周一
+			weekStart.setDate(weekStart.getDate() + diff);
+			weekStart.setHours(0, 0, 0, 0);
+
+			const weekEnd = new Date(weekStart);
+			weekEnd.setDate(weekEnd.getDate() + 6);
+			weekEnd.setHours(23, 59, 59, 999);
+
+			// 扩展时间范围以确保获取所有相关提交
+			const extendedStartDate = new Date(weekStart);
+			extendedStartDate.setDate(extendedStartDate.getDate() - 7);
+			const extendedEndDate = new Date(weekEnd);
+			extendedEndDate.setDate(extendedEndDate.getDate() + 7);
+
+			const extendedStartDateStr = extendedStartDate.toISOString();
+			const extendedEndDateStr = extendedEndDate.toISOString();
+
+			const command = `git log --since="${extendedStartDateStr}" --until="${extendedEndDateStr}" --format="%H|%an|%aI|%s|%b" --all`;
+
+			const { stdout } = await execAsync(command, {
+				cwd: this.workspaceRoot,
+				maxBuffer: 10 * 1024 * 1024
+			});
+
+			if (!stdout.trim()) {
+				return [];
+			}
+
+			const commits: GitCommit[] = [];
+			const lines = stdout.trim().split('\n');
+
+			for (const line of lines) {
+				const parts = line.split('|');
+				if (parts.length >= 4) {
+					const hash = parts[0];
+					const author = parts[1];
+					const authorDateStr = parts[2];
+					const title = parts[3];
+					const message = parts.slice(4).join('|').trim();
+
+					const authorDate = new Date(authorDateStr);
+
+					// 按作者时间精确过滤到指定周
+					if (authorDate >= weekStart && authorDate <= weekEnd) {
+						commits.push({
+							hash,
+							author,
+							authorDate,
+							title: title.trim(),
+							message: message || title.trim()
+						});
+					}
+				}
+			}
+
+			// 按作者时间排序（从早到晚）
+			commits.sort((a, b) => a.authorDate.getTime() - b.authorDate.getTime());
+
+			return commits;
+		} catch (error: any) {
+			if (error.code === 'ENOENT' || error.message?.includes('not a git repository')) {
+				return [];
+			}
+			console.error('获取 git 提交失败:', error);
+			return [];
+		}
+	}
+
+	/**
 	 * 检查当前工作区是否是 git 仓库
 	 */
 	async isGitRepository(): Promise<boolean> {
