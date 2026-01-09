@@ -175,12 +175,14 @@ export class TeamStatusWebviewProvider {
 			return 'commit-merge';
 		} else if (lowerTitle.startsWith('fix')) {
 			return 'commit-fix';
-		} else if (lowerTitle.startsWith('feature')) {
+		} else if (lowerTitle.startsWith('feat')) {
 			return 'commit-feature';
 		} else if (lowerTitle.startsWith('refactor')) {
 			return 'commit-refactor';
 		} else if (lowerTitle.startsWith('docs')) {
 			return 'commit-docs';
+		} else if (lowerTitle.startsWith('style')) {
+			return 'commit-style';
 		} else {
 			return 'commit-default';
 		}
@@ -412,34 +414,39 @@ export class TeamStatusWebviewProvider {
             box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
         .commit-merge {
-            background: #4a4a4a;
-            color: #e0e0e0;
+            background: #3a3a3a;
+            color: #d0d0d0;
             border-left-color: #666666;
         }
         .commit-fix {
-            background: #ffebee;
-            color: #c62828;
+            background: #5c2a2a;
+            color: #ff6b6b;
             border-left-color: #d32f2f;
         }
         .commit-feature {
-            background: #e3f2fd;
-            color: #1565c0;
+            background: #1e3a5f;
+            color: #64b5f6;
             border-left-color: #1976d2;
         }
         .commit-refactor {
-            background: #fff9c4;
-            color: #f57f17;
+            background: #5c4a1e;
+            color: #ffb74d;
             border-left-color: #fbc02d;
         }
         .commit-docs {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: #2a4a2a;
+            color: #81c784;
             border-left-color: #388e3c;
         }
+        .commit-style {
+            background: #4a2a4a;
+            color: #f48fb1;
+            border-left-color: #c2185b;
+        }
         .commit-default {
-            background: #f5f5f5;
-            color: #616161;
-            border-left-color: #9e9e9e;
+            background: #3a3a3a;
+            color: #b0b0b0;
+            border-left-color: #666666;
         }
         .commit-title {
             font-size: 11px;
@@ -529,12 +536,14 @@ export class TeamStatusWebviewProvider {
                 return 'commit-merge';
             } else if (lowerTitle.startsWith('fix')) {
                 return 'commit-fix';
-            } else if (lowerTitle.startsWith('feature')) {
+            } else if (lowerTitle.startsWith('feat')) {
                 return 'commit-feature';
             } else if (lowerTitle.startsWith('refactor')) {
                 return 'commit-refactor';
             } else if (lowerTitle.startsWith('docs')) {
                 return 'commit-docs';
+            } else if (lowerTitle.startsWith('style')) {
+                return 'commit-style';
             } else {
                 return 'commit-default';
             }
