@@ -1,0 +1,11 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 团队图标：三个人形图标组合 -->
+  <circle cx="4" cy="5" r="2" fill="currentColor"/>
+  <path d="M0 12C0 10 1 9 4 9C7 9 8 10 8 12V13H0V12Z" fill="currentColor"/>
+  <circle cx="8" cy="4" r="2" fill="currentColor"/>
+  <path d="M4 11C4 9 5 8 8 8C11 8 12 9 12 11V13H4V11Z" fill="currentColor"/>
+  <circle cx="12" cy="5" r="2" fill="currentColor"/>
+  <path d="M8 12C8 10 9 9 12 9C15 9 16 10 16 12V13H8V12Z" fill="currentColor"/>
+</svg>
+
+

@@ -12,12 +12,49 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "team-works-view",
+          "title": "团队工作视图",
+          "icon": "resources/team-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "team-works-view": [
+        {
+          "id": "teamWorksPanel",
+          "name": "团队面板",
+          "when": "true"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "vscode-team-works-view.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "vscode-team-works-view.viewTodayTeamStatus",
+        "title": "查看今日团队情况",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "vscode-team-works-view.refreshTeamPanel",
+        "title": "刷新",
+        "icon": "$(refresh)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "vscode-team-works-view.refreshTeamPanel",
+          "when": "view == teamWorksPanel",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",

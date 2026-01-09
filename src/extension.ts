@@ -1,6 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { TeamPanelProvider } from './teamPanelProvider';
+import { TeamStatusWebviewProvider } from './teamStatusWebviewProvider';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -10,16 +12,31 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vscode-team-works-view" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('vscode-team-works-view.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
+	// 注册侧边栏视图
+	const teamPanelProvider = new TeamPanelProvider();
+	const treeView = vscode.window.createTreeView('teamWorksPanel', {
+		treeDataProvider: teamPanelProvider,
+		showCollapseAll: false
+	});
+
+	context.subscriptions.push(treeView);
+
+	// 注册刷新命令
+	const refreshCommand = vscode.commands.registerCommand('vscode-team-works-view.refreshTeamPanel', () => {
+		teamPanelProvider.refresh();
+	});
+
+	// 注册查看今日团队情况命令
+	const viewTodayTeamStatusCommand = vscode.commands.registerCommand('vscode-team-works-view.viewTodayTeamStatus', () => {
+		TeamStatusWebviewProvider.createOrShow(context);
+	});
+
+	// 保留原有的 helloWorld 命令（可选）
+	const helloWorldCommand = vscode.commands.registerCommand('vscode-team-works-view.helloWorld', () => {
 		vscode.window.showInformationMessage('Hello World from vscode-team-works-view!');
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(refreshCommand, viewTodayTeamStatusCommand, helloWorldCommand);
 }
 
 // This method is called when your extension is deactivated
