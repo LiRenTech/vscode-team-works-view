@@ -3,6 +3,7 @@
   "displayName": "Team Works View",
   "description": "团队工作视图 - 可视化查看团队成员在指定日期/周内的 Git 提交情况，支持按作者分列显示、统计文件修改数量和代码行数变化，帮助团队更好地了解工作进展",
   "version": "0.0.1",
+  "publisher": "LiRenTech",
   "author": "LiRenTech",
   "license": "MIT",
   "repository": {
