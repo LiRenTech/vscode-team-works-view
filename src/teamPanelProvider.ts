@@ -8,7 +8,7 @@ export class TeamPanelItem extends vscode.TreeItem {
 	) {
 		super(label, collapsibleState);
 		this.command = {
-			command: `vscode-team-works-view.${commandId}`,
+			command: `team-works-view.${commandId}`,
 			title: this.label,
 			arguments: [this]
 		};

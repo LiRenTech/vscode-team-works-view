@@ -1,71 +1,90 @@
-# vscode-team-works-view README
+# 团队工作视图 (Team Works View)
 
-This is the README for your extension "vscode-team-works-view". After writing up a brief description, we recommend including the following sections.
+一个 Visual Studio Code 扩展，用于可视化查看团队成员在指定日期/周内的 Git 提交情况。
 
-## Features
+## 功能特性
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 📊 **天视图和周视图**：支持按天或按周查看团队提交情况
+- 👥 **按作者分列显示**：每个团队成员一列，清晰展示各自的工作
+- 📈 **统计信息**：显示文件修改数量和代码行数变化（+/-）
+- 🎨 **颜色分类**：根据提交类型（feat、fix、refactor、docs、style 等）显示不同颜色
+- 🔍 **过滤功能**：支持隐藏 Merge 提交，专注于实际代码变更
+- ⏰ **时间线视图**：按提交时间顺序展示，方便了解工作节奏
 
-For example if there is an image subfolder under your extension project workspace:
+## 使用方法
 
-\!\[feature X\]\(images/feature-x.png\)
+1. 在左侧活动栏点击团队图标
+2. 在侧边栏面板中选择：
+   - **查看团队工作情况（天视图）**：查看指定日期的提交情况
+   - **查看团队工作情况（周视图）**：查看指定周的提交情况
+3. 使用页面顶部的左右箭头切换日期/周
+4. 勾选"隐藏 Merge 提交"可以过滤合并提交
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## 提交类型颜色
 
-## Requirements
+- 🔵 **蓝色**：feat 开头的功能提交
+- 🔴 **红色**：fix 开头的修复提交
+- 🟡 **黄色**：refactor 开头的重构提交
+- 🟢 **绿色**：docs 开头的文档提交
+- 🩷 **粉色**：style 开头的样式提交
+- ⚫ **深灰色**：Merge 开头的合并提交
+- ⚪ **灰色**：其他类型的提交
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## 统计信息
 
-## Extension Settings
+每列顶部显示：
+- **文件数量**：该时间段内修改的文件总数
+- **代码行数**：绿色显示添加的行数（+），红色显示删除的行数（-）
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## 系统要求
 
-For example:
+- Visual Studio Code 版本：1.60.0 或更高
+- 需要在 Git 仓库中工作
 
-This extension contributes the following settings:
+## 安装
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### 从 VSIX 安装
 
-## Known Issues
+1. 下载 `.vsix` 文件
+2. 在 VS Code 中按 `Ctrl+Shift+P` (Windows/Linux) 或 `Cmd+Shift+P` (macOS)
+3. 输入 "Extensions: Install from VSIX..."
+4. 选择下载的 `.vsix` 文件
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### 从源码构建
 
-## Release Notes
+参见 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详细的开发指南。
 
-Users appreciate release notes as you update your extension.
+## 开发
 
-### 1.0.0
+```bash
+# 安装依赖
+pnpm install
 
-Initial release of ...
+# 编译
+pnpm run compile
 
-### 1.0.1
+# 监听模式
+pnpm run watch
 
-Fixed issue #.
+# 代码检查
+pnpm run lint
 
-### 1.1.0
+# 运行测试
+pnpm run test
+```
 
-Added features X, Y, and Z.
+## 贡献
 
----
+欢迎贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目。
 
-## Following extension guidelines
+## 许可证
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+本项目采用 [MIT License](LICENSE) 许可证。
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## 作者
 
-## Working with Markdown
+LiRenTech
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## 反馈
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+如有问题或建议，请在 GitHub Issues 中提交。

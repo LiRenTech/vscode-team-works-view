@@ -1,10 +1,18 @@
 {
-  "name": "vscode-team-works-view",
-  "displayName": "vscode-team-works-view",
+  "name": "team-works-view",
+  "displayName": "Team Works View",
   "description": "团队工作视图 - 可视化查看团队成员在指定日期/周内的 Git 提交情况，支持按作者分列显示、统计文件修改数量和代码行数变化，帮助团队更好地了解工作进展",
   "version": "0.0.1",
   "author": "LiRenTech",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiRenTech/vscode-team-works-view.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LiRenTech/vscode-team-works-view/issues"
+  },
+  "homepage": "https://github.com/LiRenTech/vscode-team-works-view#readme",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.60.0"
@@ -35,21 +43,21 @@
     },
     "commands": [
       {
-        "command": "vscode-team-works-view.helloWorld",
+        "command": "team-works-view.helloWorld",
         "title": "Hello World"
       },
       {
-        "command": "vscode-team-works-view.viewTodayTeamStatus",
+        "command": "team-works-view.viewTodayTeamStatus",
         "title": "查看今日团队情况",
         "icon": "$(graph)"
       },
       {
-        "command": "vscode-team-works-view.viewWeekTeamStatus",
+        "command": "team-works-view.viewWeekTeamStatus",
         "title": "查看本周团队情况",
         "icon": "$(calendar)"
       },
       {
-        "command": "vscode-team-works-view.refreshTeamPanel",
+        "command": "team-works-view.refreshTeamPanel",
         "title": "刷新",
         "icon": "$(refresh)"
       }
@@ -57,7 +65,7 @@
     "menus": {
       "view/title": [
         {
-          "command": "vscode-team-works-view.refreshTeamPanel",
+          "command": "team-works-view.refreshTeamPanel",
           "when": "view == teamWorksPanel",
           "group": "navigation"
         }
@@ -73,7 +81,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.108.0",
+    "@types/vscode": "^1.60.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.48.1",
