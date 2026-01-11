@@ -10,6 +10,9 @@ export interface GitCommit {
 	authorDate: Date;
 	title: string;
 	message: string;
+	fileCount: number;
+	insertions: number;
+	deletions: number;
 }
 
 export class GitService {
@@ -74,12 +77,18 @@ export class GitService {
 
 					// 按作者时间精确过滤到指定日期
 					if (authorDate >= startDate && authorDate <= endDate) {
+						// 获取该提交的统计信息
+						const stats = await this.getCommitStats(hash);
+						
 						commits.push({
 							hash,
 							author,
 							authorDate,
 							title: title.trim(),
-							message: message || title.trim()
+							message: message || title.trim(),
+							fileCount: stats.fileCount,
+							insertions: stats.insertions,
+							deletions: stats.deletions
 						});
 					}
 				}
@@ -153,12 +162,18 @@ export class GitService {
 
 					// 按作者时间精确过滤到指定周
 					if (authorDate >= weekStart && authorDate <= weekEnd) {
+						// 获取该提交的统计信息
+						const stats = await this.getCommitStats(hash);
+						
 						commits.push({
 							hash,
 							author,
 							authorDate,
 							title: title.trim(),
-							message: message || title.trim()
+							message: message || title.trim(),
+							fileCount: stats.fileCount,
+							insertions: stats.insertions,
+							deletions: stats.deletions
 						});
 					}
 				}
@@ -174,6 +189,45 @@ export class GitService {
 			}
 			console.error('获取 git 提交失败:', error);
 			return [];
+		}
+	}
+
+	/**
+	 * 获取指定提交的统计信息
+	 */
+	private async getCommitStats(hash: string): Promise<{ fileCount: number; insertions: number; deletions: number }> {
+		try {
+			const command = `git show --numstat --format="" ${hash}`;
+			const { stdout } = await execAsync(command, {
+				cwd: this.workspaceRoot,
+				maxBuffer: 10 * 1024 * 1024
+			});
+
+			let fileCount = 0;
+			let insertions = 0;
+			let deletions = 0;
+
+			if (stdout.trim()) {
+				const lines = stdout.trim().split('\n');
+				for (const line of lines) {
+					if (line.trim()) {
+						// 统计行格式：添加数	删除数	文件名
+						const statsMatch = line.match(/^(\d+|-)\s+(\d+|-)\s+/);
+						if (statsMatch) {
+							fileCount++;
+							const add = statsMatch[1] === '-' ? 0 : parseInt(statsMatch[1], 10);
+							const del = statsMatch[2] === '-' ? 0 : parseInt(statsMatch[2], 10);
+							insertions += add;
+							deletions += del;
+						}
+					}
+				}
+			}
+
+			return { fileCount, insertions, deletions };
+		} catch (error) {
+			// 如果获取统计信息失败，返回0
+			return { fileCount: 0, insertions: 0, deletions: 0 };
 		}
 	}
 

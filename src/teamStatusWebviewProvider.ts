@@ -239,13 +239,21 @@ export class TeamStatusWebviewProvider {
 					author: commit.author,
 					authorDate: commit.authorDate.toISOString(),
 					title: commit.title,
-					message: commit.message
+					message: commit.message,
+					fileCount: commit.fileCount,
+					insertions: commit.insertions,
+					deletions: commit.deletions
 				}))
 			])
 		);
 
 		// 生成初始时间线 HTML（显示所有提交，JavaScript 会处理过滤）
 		const timelineHtml = authorsData.map(([author, commits]) => {
+			// 计算该作者的总统计信息
+			const totalFileCount = commits.reduce((sum, commit) => sum + commit.fileCount, 0);
+			const totalInsertions = commits.reduce((sum, commit) => sum + commit.insertions, 0);
+			const totalDeletions = commits.reduce((sum, commit) => sum + commit.deletions, 0);
+
 			const commitBlocks = commits.map(commit => {
 				const timeStr = commit.authorDate.toLocaleTimeString('zh-CN', {
 					hour: '2-digit',
@@ -264,7 +272,16 @@ export class TeamStatusWebviewProvider {
 
 			return `
 				<div class="author-column" data-author="${this.escapeHtml(author)}">
-					<div class="author-header">${this.escapeHtml(author)}</div>
+					<div class="author-header">
+						<div class="author-name">${this.escapeHtml(author)}</div>
+						<div class="author-stats">
+							<div class="stat-line">${totalFileCount} 个文件</div>
+							<div class="stat-line">
+								<span class="stat-add">+${totalInsertions}</span>
+								<span class="stat-del">-${totalDeletions}</span>
+							</div>
+						</div>
+					</div>
 					<div class="commits-container">
 						${commitBlocks || '<div class="no-commits">暂无提交</div>'}
 					</div>
@@ -387,12 +404,30 @@ export class TeamStatusWebviewProvider {
         }
         .author-header {
             padding: 6px 8px;
-            font-weight: 600;
-            font-size: 11px;
             border-bottom: 1px solid var(--vscode-panel-border);
             background: var(--vscode-sideBar-background);
-            color: var(--vscode-sideBarTitle-foreground);
             text-align: center;
+        }
+        .author-name {
+            font-weight: 600;
+            font-size: 11px;
+            color: var(--vscode-sideBarTitle-foreground);
+            margin-bottom: 4px;
+        }
+        .author-stats {
+            font-size: 10px;
+            color: var(--vscode-descriptionForeground);
+        }
+        .stat-line {
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+        .stat-add {
+            color: #81c784;
+            margin-right: 6px;
+        }
+        .stat-del {
+            color: #e57373;
         }
         .commits-container {
             flex: 1;
